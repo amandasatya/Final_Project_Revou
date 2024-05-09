@@ -68,7 +68,7 @@ const Ingredients: React.FC<Props> = ({ recipeData }) => {
               className="w-12 h-12 flex rounded-full"
             />
           </picture>
-          <p className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             {recipeData.ingredients
               ? recipeData.ingredients.map((ingredient: any, index: number) => (
                   <div
@@ -79,7 +79,7 @@ const Ingredients: React.FC<Props> = ({ recipeData }) => {
                   </div>
                 ))
               : null}
-          </p>
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           {recipeData.ingredients

@@ -46,12 +46,12 @@ export default function RegisterModal({ setShowRegisterModal }: Props) {
   // 1. Define your form.
   const registerForm = async (values: z.infer<typeof formSchema>) => {
     try {
-      console.log("first");
+      // console.log("first");
       const response = await axios.post(
         "http://127.0.0.1:5000/users/register",
         values
       );
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }

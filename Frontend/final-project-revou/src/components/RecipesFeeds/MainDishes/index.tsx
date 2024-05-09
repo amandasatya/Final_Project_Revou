@@ -30,7 +30,7 @@ const MainDishes: React.FC<MainDishesProps> = () => {
   const handleRecipeClick = (recipe: RecipeData) => {
     setSelectedRecipe(recipe);
     setShowModal(true);
-    console.log(setSelectedRecipe);
+    // console.log(setSelectedRecipe);
   };
   return (
     <div className="item-list">

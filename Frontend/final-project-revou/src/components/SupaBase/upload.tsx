@@ -63,7 +63,7 @@ const useUploadComponent = () => {
 
         await fetchUserImage(imageUrl);
 
-        console.log("File uploaded successfully:", uploadData);
+        // console.log("File uploaded successfully:", uploadData);
         refetchProfile();
       } catch (error) {
         console.error("Error uploading or updating profile:", error);

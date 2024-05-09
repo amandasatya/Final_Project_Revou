@@ -30,7 +30,7 @@ const sideDishes: React.FC<sideDishesProps> = () => {
   const handleRecipeClick = (recipe: RecipeData) => {
     setSelectedRecipe(recipe);
     setShowModal(true);
-    console.log(setSelectedRecipe);
+    // console.log(setSelectedRecipe);
   };
   return (
     <div className="item-list">

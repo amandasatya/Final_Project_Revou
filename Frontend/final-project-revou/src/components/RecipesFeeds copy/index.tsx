@@ -32,7 +32,7 @@ const RecipeFeeds_vmhb = () => {
   const { recipes } = useFetchRecipe();
   const [recipesData, setRecipesData] = useState<[]>([]);
   const [categoriesData, setCategoriesData] = useState<string[]>([]);
-  console.log("ini recipes", recipes);
+  // console.log("ini recipes", recipes);
 
   useEffect(() => {
     if (recipes) {

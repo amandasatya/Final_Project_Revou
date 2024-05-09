@@ -44,32 +44,28 @@ const CommentSection = ({ recipeData, setRecipeData }: any) => {
   //   fetchDataProfile();
   // });
 
-  const postComments = async (event?: React.FormEvent<HTMLFormElement>) => {
-    event?.preventDefault();
+  const postComments = async () => {
     try {
       const authToken = localStorage.getItem("access_token");
-      if (
-        authToken &&
-        recipeData &&
-        recipeData.comments &&
-        recipeData.comments.length > 0
-      ) {
-        const headers = {
-          Authorization: `Bearer ${authToken}`,
-        };
-        const commentsId =
-          recipeData.comments[recipeData.comments.length - 1].id;
-        console.log("comments id", commentsId);
-
-        const response = await axios.post(
-          `http://127.0.0.1:5000/recipes/comments/${commentsId}`,
-          { message: profileComment },
-          { headers }
-        );
-        setProfileComment("");
-      } else {
-        console.error("Recipe data or comments not available.");
+      // Verify authToken is not null before proceeding
+      if (!authToken) {
+        console.error("Authorization token is missing.");
+        return;
       }
+
+      const response = await axios.post(
+        `http://127.0.0.1:5000/recipes/comment/${recipeData.id}`,
+        {
+          message: profileComment,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      console.log("Comment posted successfully:", response.data);
+      setRecipeData(response.data);
     } catch (error) {
       console.error("Error posting comment:", error);
     }
@@ -78,8 +74,9 @@ const CommentSection = ({ recipeData, setRecipeData }: any) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
     postComments();
+    setProfileComment("");
   };
-  console.log("inirecipedata", recipeData);
+  // console.log("inirecipedata", recipeData);
   // console.log("ini profile", profile);
 
   const imageIsValid = profile?.image && profile?.image !== "";
@@ -95,7 +92,7 @@ const CommentSection = ({ recipeData, setRecipeData }: any) => {
           </div>
           <div className="mt-4">
             <h1 className="text-slate-800">
-              Add comment as
+              Add comment as{" "}
               {profile ? (
                 <span className="font-semibold text-slate-800">
                   {profile?.first_name} {profile?.last_name}

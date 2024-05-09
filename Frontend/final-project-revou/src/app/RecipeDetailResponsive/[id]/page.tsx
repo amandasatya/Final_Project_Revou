@@ -46,14 +46,14 @@ export default function Recipees({ params }: { params: { id: string } }) {
       if (recipes && recipes.length > 0) {
         const recipeId = params.id;
         const apiUrl = `http://127.0.0.1:5000/recipes/details/${recipeId}`;
-        console.log("ini id", apiUrl);
+        // console.log("ini id", apiUrl);
         try {
           const response = await fetch(apiUrl);
           if (!response.ok) {
             throw new Error("Failed to fetch data");
           }
           const data = await response.json();
-          console.log("hasil result", data);
+          // console.log("hasil result", data);
           setRecipeData(data);
         } catch (error) {
           console.error(error);
@@ -66,12 +66,12 @@ export default function Recipees({ params }: { params: { id: string } }) {
 
   return (
     <div className="px-3 sm:px-5 justify-center items-center">
-      <h1>tes</h1>
+      {/* <h1>tes</h1> */}
       <NavbarWrapper />
       <RecipeHeroPage images={images} recipeData={recipeData} />
       <CatOrNutLoSh recipeData={recipeData} />
       <div className="md:flex md:my-3 lg:mb-10 lg:mt-0 lg:px-12 lg:gap-3 2xl:gap-10">
-        <Author />
+        <Author recipeData={recipeData} />
         <RecipeSummary recipeData={recipeData} />
       </div>
       {/* Ingredients n instructions */}
@@ -88,7 +88,7 @@ export default function Recipees({ params }: { params: { id: string } }) {
         </div>
       </div>
       {/* End of ingredients n instructions */}
-      <RecipeTags />
+      <RecipeTags recipeData={recipeData} />
       <div className="lg:flex lg:pl-6 lg:pt-2">
         <div className="lg:w-1/3 ">
           <CommentSection recipeData={recipeData} />

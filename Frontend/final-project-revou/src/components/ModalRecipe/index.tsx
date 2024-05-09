@@ -39,6 +39,7 @@ export interface ProfileData {
   image: string;
   role: string;
   bio: string;
+  id: number;
 }
 
 const ModalRecipe = ({ recipe, showModal, setShowModal }: any) => {
