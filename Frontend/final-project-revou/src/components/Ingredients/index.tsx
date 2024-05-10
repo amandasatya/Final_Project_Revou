@@ -58,38 +58,40 @@ const Ingredients: React.FC<Props> = ({ recipeData }) => {
       </div>
       <div
         // key={card.id}
-        className="flex px-0 w-full justify-around sm:mt-2 sm:pb-1 container border-b-2 border-slate-200 "
+        className="flex px-0 w-full h-full justify-around sm:mt-2 sm:pb-1 border-b-2 border-slate-200 "
       >
-        <div className="flex flex-start justify-start items-center gap-2 py-1">
-          {recipeData.ingredients
-            ? recipeData.ingredients.map((ingredient: any, index: number) => (
-                <picture key={index}>
-                  <img
-                    // src={recipeData.ingredients}
-                    alt=""
-                    className="w-12 h-12 flex rounded-full"
-                  />
-                </picture>
-              ))
-            : null}
-          <div className="flex flex-col gap-2">
+        <div className="flex flex-start justify-start items-center gap-2 py-1 ">
+          <div className="flex  justify-center items-center flex-col gap-2">
+            {recipeData.ingredients
+              ? recipeData.ingredients.map((ingredient: any, index: number) => (
+                  <picture key={index}>
+                    <img
+                      src={ingredient[2]}
+                      alt=""
+                      className="w-10 h-10 flex rounded-full"
+                    />
+                  </picture>
+                ))
+              : null}
+          </div>
+          <div className="flex flex-col gap-5 ">
             {recipeData.ingredients
               ? recipeData.ingredients.map((ingredient: any, index: number) => (
                   <div
                     key={index}
                     className="text-base sm:pl-2 font-medium text-orange-900 justify-start items-center flex"
                   >
-                    <h1>{ingredient[0]}</h1>
+                    <h1 className="text-lg font-semibold">{ingredient[0]}</h1>
                   </div>
                 ))
               : null}
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-5 pt-3">
           {recipeData.ingredients
             ? recipeData.ingredients.map((ingredient: any, index: number) => (
-                <div key={index}>
-                  <h1 className="flex text-base font-semibold justify-start items-start text-slate-800">
+                <div key={index} className="flex justify-center items-center">
+                  <h1 className="flex text-lg font-semibold  text-slate-800">
                     {ingredient[1]}
                   </h1>
                 </div>

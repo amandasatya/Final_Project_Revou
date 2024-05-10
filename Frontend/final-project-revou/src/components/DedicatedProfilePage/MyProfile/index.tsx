@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { chefMainCard2 } from "@/data";
 import Swal from "sweetalert2";
 import useUploadComponent from "@/hooks/useUploadComponent";
+import Facebooklogo from "../../../components/images/svg/facebook.svg";
+import InstagramLogo from "../../../components/images/svg/instagram.svg";
+import TiktokLogo from "../../../components/images/svg/tiktok-logo-logo-svgrepo-com.svg";
 
 interface Props {
   username?: string;
@@ -104,7 +107,7 @@ const MyProfile: React.FC = () => {
                     {changeImage && <p>Image updated successfully!</p>} */}
                   </div>
                 ) : (
-                  <>
+                  <div className="flex justify-between items-center">
                     <div className="flex gap-5">
                       <img
                         src={profile.image}
@@ -128,7 +131,7 @@ const MyProfile: React.FC = () => {
                         </div>
                       )}
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             ) : (
@@ -197,19 +200,61 @@ const MyProfile: React.FC = () => {
                     </div>
                     {editing ? (
                       <div className="w-1/2">
-                        <h1 className=" font-extralight">Phone Number</h1>
-                        <input
-                          type="text"
-                          value={data.phone}
-                          name="phone"
-                          className="border-b-2 border-black"
-                          onChange={handleChange}
-                        />
+                        <div>
+                          <h1 className=" font-extralight">Facebook :</h1>
+                          <input
+                            type="text"
+                            value={data.phone}
+                            name="phone"
+                            className="border-b-2 border-black"
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div>
+                          <h1 className=" font-extralight">Instagram :</h1>
+                          <input
+                            type="text"
+                            value={data.phone}
+                            name="phone"
+                            className="border-b-2 border-black"
+                            onChange={handleChange}
+                          />
+                        </div>
+                        <div>
+                          <h1 className=" font-extralight">Tiktok :</h1>
+                          <input
+                            type="text"
+                            value={data.phone}
+                            name="phone"
+                            className="border-b-2 border-black"
+                            onChange={handleChange}
+                          />
+                        </div>
                       </div>
                     ) : (
-                      <div className="w-1/2">
-                        <h1 className=" font-extralight">Phone Number</h1>
-                        <h1>{profile.phone}</h1>
+                      <div className="flex justify-end items-center gap-4">
+                        <h1>Social Media :</h1>
+                        <div className="h-8 w-8">
+                          <img
+                            src={Facebooklogo.src}
+                            alt=""
+                            className="object-cover rounded-full bg-slate-200 p-1"
+                          />
+                        </div>
+                        <div className="h-8 w-8">
+                          <img
+                            src={InstagramLogo.src}
+                            alt=""
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="h-8 w-8">
+                          <img
+                            src={TiktokLogo.src}
+                            alt=""
+                            className=" rounded-full bg-slate-200 object-cover "
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
