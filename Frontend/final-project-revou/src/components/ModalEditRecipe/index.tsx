@@ -113,10 +113,9 @@ const ModalEditRecipe = ({ recipe, showModal, setShowModal }: any) => {
   };
 
   return (
-    <Modal showModal={showModal} setShowModal={setShowModal}>
+    <Modal setShowModal={setShowModal}>
       <form onSubmit={handleSubmit}>
         <div className="w-full p-3" style={{ width: "500px" }}>
-          {/* Add your form fields here */}
           {step === 1 && (
             <div className="p-2">
               <Label>Title</Label>

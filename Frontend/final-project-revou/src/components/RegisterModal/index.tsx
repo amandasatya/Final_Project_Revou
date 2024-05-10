@@ -1,10 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
 import axios from "axios";
+import { Button } from "../ui/button";
 
 import Modal from "../Modal";
 import useMultistepForm from "@/hooks/useMultistepForm";
@@ -43,20 +41,12 @@ interface Props {
 }
 
 export default function RegisterModal({ setShowRegisterModal }: Props) {
-  // 1. Define your form.
-  const registerForm = async (values: z.infer<typeof formSchema>) => {
-    try {
-      // console.log("first");
-      const response = await axios.post(
-        "http://127.0.0.1:5000/users/register",
-        values
-      );
-      // console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const form = useForm<z.infer<typeof formSchema>>({
+  // Define your form.
+  const {
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -70,27 +60,30 @@ export default function RegisterModal({ setShowRegisterModal }: Props) {
     },
   });
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log("Form submitted!");
-    // console.log(values);
-
+  // Define a submit handler.
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await registerForm(values);
+      const response = await axios.post(
+        "http://127.0.0.1:5000/users/register",
+        values
+      );
+      console.log(response.data); // Log the response for debugging purposes
+      // Optionally, you can provide feedback to the user upon successful registration
+      alert("Registration successful!");
+      reset(); // Reset the form after successful submission
     } catch (error) {
-      console.log(error);
+      console.error("Registration failed:", error);
+      // Optionally, you can provide feedback to the user about the error
+      alert("Registration failed. Please try again later.");
     }
+  };
 
-    form.reset();
-  }
-
+  // Multistep form handling (assuming this is already implemented correctly)
   const { currentStepIndex, steps, isFirstStep, isLastStep, back, next, step } =
     useMultistepForm([
-      <RegisterModalS1 key={0} form={form} />,
-      <RegisterModalS2 key={1} form={form} />,
-      <RegisterModalS3 key={2} form={form} />,
+      <RegisterModalS1 key={0} form={handleSubmit(onSubmit)} />, // Pass handleSubmit(onSubmit) as form
+      <RegisterModalS2 key={1} form={handleSubmit(onSubmit)} />, // Pass handleSubmit(onSubmit) as form
+      <RegisterModalS3 key={2} form={handleSubmit(onSubmit)} />, // Pass handleSubmit(onSubmit) as form
     ]);
 
   return (
@@ -99,35 +92,29 @@ export default function RegisterModal({ setShowRegisterModal }: Props) {
         <h2>
           {currentStepIndex + 1} / {steps.length}
         </h2>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {step}
-            <div className="flex justify-between">
-              {!isFirstStep ? (
-                <Button type="button" onClick={back}>
-                  Back
-                </Button>
-              ) : (
-                <Button type="button" onClick={back} disabled>
-                  Back
-                </Button>
-              )}
-              {isLastStep ? (
-                <Button
-                  className="bg-red-500 hover:bg-red-600"
-                  type="submit"
-                  onClick={form.handleSubmit(onSubmit)}
-                >
-                  Submit
-                </Button>
-              ) : (
-                <Button type="button" onClick={next}>
-                  Next
-                </Button>
-              )}
-            </div>
-          </form>
-        </Form>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          {step}
+          <div className="flex justify-between">
+            {!isFirstStep ? (
+              <Button type="button" onClick={back}>
+                Back
+              </Button>
+            ) : (
+              <Button type="button" onClick={back} disabled>
+                Back
+              </Button>
+            )}
+            {isLastStep ? (
+              <Button className="bg-red-500 hover:bg-red-600" type="submit">
+                Submit
+              </Button>
+            ) : (
+              <Button type="button" onClick={next}>
+                Next
+              </Button>
+            )}
+          </div>
+        </form>
       </div>
     </Modal>
   );

@@ -14,7 +14,7 @@ interface IngredientProps {
 }
 const Ingredients: React.FC<Props> = ({ recipeData }) => {
   const [userInput, setUserInput] = useState(0);
-
+  // console.log("ingredient", recipeData.ingredients.ingredient_image);
   const handleChange = (event: any) => {
     setUserInput(event.target.value);
   };
@@ -61,13 +61,17 @@ const Ingredients: React.FC<Props> = ({ recipeData }) => {
         className="flex px-0 w-full justify-around sm:mt-2 sm:pb-1 container border-b-2 border-slate-200 "
       >
         <div className="flex flex-start justify-start items-center gap-2 py-1">
-          <picture>
-            <img
-              // src={recipeData.ingredients}
-              alt=""
-              className="w-12 h-12 flex rounded-full"
-            />
-          </picture>
+          {recipeData.ingredients
+            ? recipeData.ingredients.map((ingredient: any, index: number) => (
+                <picture key={index}>
+                  <img
+                    // src={recipeData.ingredients}
+                    alt=""
+                    className="w-12 h-12 flex rounded-full"
+                  />
+                </picture>
+              ))
+            : null}
           <div className="flex flex-col gap-2">
             {recipeData.ingredients
               ? recipeData.ingredients.map((ingredient: any, index: number) => (

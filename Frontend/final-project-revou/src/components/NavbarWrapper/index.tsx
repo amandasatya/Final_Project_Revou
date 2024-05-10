@@ -4,7 +4,7 @@ import { useState } from "react";
 import LoginModal from "../LoginModal";
 import Navbar from "../Navbar";
 import NavbarDropdown from "../NavbarDropdown";
-import RegisterModal from "../RegisterModal";
+import RegisterModalv1 from "../RegisterModalv1";
 
 export default function NavbarWrapper() {
   const [showNavbarHamburgerMenu, setShowNavbarHamburgerMenu] =
@@ -32,7 +32,7 @@ export default function NavbarWrapper() {
           />
         )}
         {showRegisterModal && (
-          <RegisterModal setShowRegisterModal={setShowRegisterModal} />
+          <RegisterModalv1 setShowRegisterModal={setShowRegisterModal} />
         )}
       </div>
     </>
