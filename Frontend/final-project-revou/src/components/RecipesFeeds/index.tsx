@@ -16,6 +16,11 @@ import Beverages from "./Beverages";
 import SideDishes from "./SideDishes";
 import WeeklyRecipes from "./WeeklyRecipes";
 import AllRecipes from "./AllRecipes";
+
+import MyRecipeSide from "../RecipeFeedSide/MyRecipe";
+import MyFavoriteRecipe from "../RecipeFeedSide/MyFavoriteRecipe";
+import FollowedRecipe from "../RecipeFeedSide/FollowedRecipe";
+
 import { Button } from "../ui/button";
 import Food1 from "../../components/images/sliderImagesv2/food1.jpg";
 import Food2 from "../../components/images/sliderImagesv2/food2.jpg";
@@ -127,8 +132,16 @@ const RecipeFeeds = () => {
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
+  const [selectedSideCategory, setSelectedSideCategory] = useState<
+    string | null
+  >(null);
+
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+  };
+
+  const handleSideCategoryClick = (sideCategory: string) => {
+    setSelectedSideCategory(sideCategory);
   };
 
   const images: string[] = [Food1.src, Food2.src, Food3.src, Food4.src];
@@ -144,11 +157,11 @@ const RecipeFeeds = () => {
                   <div
                     key={category.name}
                     className={`sideBarCategories flex gap-3 justify-start items-center p-2 ${
-                      selectedCategory === category.name
+                      selectedSideCategory === category.name
                         ? "bg-slate-500 w-full rounded-lg shadow-md shadow-black"
                         : ""
                     }`}
-                    onClick={() => handleCategoryClick(category.name)}
+                    onClick={() => handleSideCategoryClick(category.name)}
                   >
                     <img src={category.image} alt="" className="h-7 w-7" />
                     <h1>{category.name}</h1>
@@ -297,11 +310,11 @@ const RecipeFeeds = () => {
                   </div>
                 )}
               </div>
-              <div className="pt-5">
+              <div className="p-2">
                 <h1>Weekly Recipes</h1>
                 <WeeklyRecipes recipeCategoryName="" />
               </div>
-              <div className="pt-5">
+              <div className="p-2">
                 <h1>All Recipes</h1>
                 <AllRecipes recipeCategoryName="" />
               </div>
@@ -328,6 +341,11 @@ const RecipeFeeds = () => {
           {selectedCategory === "Home" && (
             <HealtyRecipes categories={categoriesData} />
           )}
+          {selectedSideCategory === "My Favorite Recipes" && (
+            <MyFavoriteRecipe />
+          )}
+          {selectedSideCategory === "Followed Recipes" && <FollowedRecipe />}
+          {selectedSideCategory === "My Recipe" && <MyRecipeSide />}
         </div>
       </div>
     </div>

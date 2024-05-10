@@ -190,12 +190,12 @@ const ModalEditRecipe = ({ recipe, showModal, setShowModal }: any) => {
                   <option value="" disabled>
                     --Please choose an option--
                   </option>
-                  <option value="mainDishes">Main Dishes</option>
-                  <option value="sideDishes">Side Dishes</option>
-                  <option value="Appetizers">Appetizers</option>
-                  <option value="Beverages">Beverages</option>
-                  <option value="Desserts">Desserts</option>
-                  <option value="HealtyRecipes">Healty Recipes</option>
+                  <option value="MainDish">Main Dishes</option>
+                  <option value="SideDish">Side Dishes</option>
+                  <option value="Appetizer">Appetizers</option>
+                  <option value="Beverage">Beverages</option>
+                  <option value="Dessert">Desserts</option>
+                  <option value="HealtyRecipe">Healty Recipes</option>
                 </select>
               </div>
               <Label>Instruction</Label>

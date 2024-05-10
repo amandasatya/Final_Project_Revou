@@ -34,7 +34,7 @@ const desserts: React.FC<dessertsProps> = () => {
   };
   return (
     <div className="item-list">
-      <h2>Desserts</h2>
+      <h1>Desserts</h1>
       <div className=" pr-16 ">
         <div className="grid grid-cols-4 gap-7 px-20 py-10 ">
           {recipes

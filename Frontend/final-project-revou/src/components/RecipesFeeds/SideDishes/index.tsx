@@ -38,7 +38,7 @@ const sideDishes: React.FC<sideDishesProps> = () => {
       <div className=" pr-16 ">
         <div className="grid grid-cols-4 gap-7 px-20 py-10 ">
           {recipes
-            .filter((recipe) => recipe.type === "Side Dish")
+            .filter((recipe) => recipe.type === "SideDish")
             .slice(0, showCount)
             .map((recipe, index) => (
               <div

@@ -100,7 +100,7 @@ const ModalRecipe = ({ recipe, showModal, setShowModal }: any) => {
     <div>
       <Modal setShowModal={closeModal}>
         {recipe && (
-          <div className="flex h-full w-full">
+          <div className="flex h-full w-full ">
             <div className="flex flex-col justify-start  w-3/6 h-3/6">
               <div className="flex flex-col h-1/5">
                 <div className="flex justify-center items-center p-3 ">
@@ -165,11 +165,11 @@ const ModalRecipe = ({ recipe, showModal, setShowModal }: any) => {
                 </Button>
               </div>
             </div>
-            <div className="w-3/6 h-3/6 flex justify-center items-center  overflow-auto ">
+            <div className="w-3/6 h-3/6 flex justify-center items-center overflow-hidden">
               <img
-                src={food1.src}
+                src={recipe.attachment}
                 alt=""
-                className="rounded-tr-xl rounded-br-xl object-cover object-center h-full w-full"
+                className="h-full w-full object-cover object-center rounded-tr-xl rounded-br-xl"
               />
             </div>
           </div>
