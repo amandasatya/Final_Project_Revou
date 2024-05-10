@@ -8,34 +8,20 @@ import ComplexityLogo from "../../../components/images/svg/levels-svgrepo-com.sv
 import NutriLogo from "../../../components/images/svg/cardlogo/scoreboard-svgrepo-com.svg";
 import ServingLoo from "../../../components/images/svg/cardlogo/cover-dish-svgrepo-com.svg";
 import Link from "next/link";
+import Card_new_v2 from "@/components/Card_new_v2";
+import { RecipeData } from "@/hooks/UseFetchRecipe";
+import ModalRecipe_rev from "@/components/ModalRecipe_rev";
+
 interface Props {
   recipeCategoryName: string;
 }
 
-export interface RecipeData {
-  id: number;
-  title: string;
-  description: string;
-  cooktime: string;
-  complexity: string;
-  servings: string;
-  budget: string;
-  nutriscore: string;
-  instruction: string;
-  type: string;
-  origin: string;
-  tag: string[];
-  attachment: string;
-  category: string;
-  author_id: number;
-}
-
 const AllRecipes: React.FC<Props> = ({ recipeCategoryName }) => {
-  const { recipes, error, refetchRecipes } = useFetchRecipe();
   const [showCount, setShowCount] = useState(4);
   const [selectedRecipe, setSelectedRecipe] = useState<RecipeData | null>(null);
+  const [showRecipeModal, setShowRecipeModal] = useState(false);
 
-  const [showModal, setShowModal] = useState(false);
+  const { recipes, error, refetchRecipes } = useFetchRecipe();
 
   // const { file, imageUrl, handleFileChange, handleUpload, changeImage } =
   //   useUploadComponent();
@@ -51,21 +37,22 @@ const AllRecipes: React.FC<Props> = ({ recipeCategoryName }) => {
     setShowCount((prevCount) => Math.max(4, prevCount - 4));
   };
 
-  const handleRecipeClick = (recipe: RecipeData) => {
+  const handleCardClick = (recipe: RecipeData) => {
     setSelectedRecipe(recipe);
-    setShowModal(true);
+    setShowRecipeModal(true);
     // console.log(setSelectedRecipe);
   };
+
   return (
     <div className="item-list">
       <h2>{recipeCategoryName}</h2>
       <div className="pr-16 ">
         <div className="grid grid-cols-4 gap-7 px-20 py-5 ">
-          {recipes.slice(0, showCount).map((recipe, index: number) => (
+          {/* {recipes.slice(0, showCount).map((recipe, index: number) => (
             <div
               className="rounded-xl shadow-md shadow-black cursor-pointer"
               key={index}
-              onClick={() => handleRecipeClick(recipe as unknown as RecipeData)}
+              onClick={() => handleCardClick(recipe as unknown as RecipeData)}
             >
               <div className=" h-44 overflow-hidden">
                 <img
@@ -94,6 +81,23 @@ const AllRecipes: React.FC<Props> = ({ recipeCategoryName }) => {
                 </div>
               </div>
             </div>
+          ))} */}
+          {recipes.slice(0, showCount).map((recipe, index) => (
+            <Card_new_v2
+              key={index}
+              title={recipe.title}
+              authorName={recipe.author_name}
+              nutriScore={recipe.nutriscore}
+              rate={recipe.rating}
+              like={recipe.like_count}
+              complexity={recipe.complexity}
+              description={recipe.description}
+              attachment={recipe.attachment}
+              isChefRecipe={recipe.is_chef_recipe}
+              setShowRecipeModal={() =>
+                handleCardClick(recipe as unknown as RecipeData)
+              }
+            />
           ))}
         </div>
       </div>
@@ -109,11 +113,11 @@ const AllRecipes: React.FC<Props> = ({ recipeCategoryName }) => {
           </Button>
         )}
       </div>
-      {showModal && selectedRecipe && (
-        <ModalRecipe
+      {showRecipeModal && selectedRecipe && (
+        <ModalRecipe_rev
           recipe={selectedRecipe}
-          showModal={showModal}
-          setShowModal={setShowModal}
+          showModal={showRecipeModal}
+          setShowModal={setShowRecipeModal}
         />
       )}
     </div>

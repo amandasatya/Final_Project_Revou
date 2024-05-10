@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export interface Recipe {
+interface Comment {
+  id: number;
+  user_id: number;
+  recipe_id: number;
+  message: string;
+}
+
+export interface RecipeData {
+  id: number;
+  author_id: number;
+  author_name: string;
   title: string;
   description: string;
+  nutriscore: number;
+  rating: number;
+  like_count: number;
   cooktime: string;
   complexity: string;
   servings: string;
   budget: string;
-  nutriscore: string;
   instruction: string;
+  view_count: number;
+  categories: string[];
   type: string;
   origin: string;
-  tag: string[];
+  tags: string[];
   attachment: string;
-  category: string;
-  id: number;
-  author_id: number;
-  comment: string;
+  ingredients: string[][];
+  comments: Comment[];
+  is_chef_recipe: boolean;
 }
 
 export default function useFetchRecipe() {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<RecipeData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const fetchRecipes = async () => {
