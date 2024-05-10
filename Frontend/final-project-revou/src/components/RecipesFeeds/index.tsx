@@ -5,6 +5,7 @@ import SliderImage from "../SliderImage";
 import Card from "../../components/Card";
 import useFetchRecipe from "@/hooks/UseFetchRecipe";
 import { Recipe } from "@/hooks/UseFetchRecipe";
+import { RecipeData } from "./AllRecipes";
 
 import { chefMainCard, chefMainCard2 } from "@/data";
 import HealtyRecipes from "./HealtyRecipes";
@@ -23,6 +24,7 @@ import Food4 from "../../components/images/sliderImagesv2/food4.jpg";
 import Magnifier from "../../components/images/svg/icons8-magnifier.svg";
 import NavbarWrapper from "../NavbarWrapper";
 import DiscoverContent from "../DiscoverContent";
+import ModalRecipe from "@/components/ModalRecipe";
 
 import HomeLogo from "../../components/images/sidebarlogo/home-svgrepo-com.svg";
 import MyRecipeLogo from "../../components/images/sidebarlogo/notes-svgrepo-com.svg";
@@ -31,13 +33,56 @@ import MyFavoriteRecipesLogo from "../../components/images/sidebarlogo/love-lett
 import NutritionsLogo from "../../components/images/sidebarlogo/nutrition-svgrepo-com.svg";
 import CategoriesLogo from "../../components/images/sidebarlogo/category-svgrepo-com.svg";
 import OriginsLogo from "../../components/images/sidebarlogo/country-direction-location-map-navigation-pin-svgrepo-com.svg";
+import ComplexityLogo from "../../components/images/svg/levels-svgrepo-com.svg";
+import NutriLogo from "../../components/images/svg/cardlogo/scoreboard-svgrepo-com.svg";
+import ServingLoo from "../../components/images/svg/cardlogo/cover-dish-svgrepo-com.svg";
 
 const RecipeFeeds = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { recipes } = useFetchRecipe();
   const [recipesData, setRecipesData] = useState<[]>([]);
   const [categoriesData, setCategoriesData] = useState<string[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showCount, setShowCount] = useState(4);
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipeData | null>(null);
+  const [showModal, setShowModal] = useState(false);
   // console.log("ini recipes", recipes);
+
+  const toggleShowMore = () => {
+    setShowCount((prevCount) => prevCount + 4);
+  };
+
+  const toggleShowLess = () => {
+    setShowCount((prevCount) => Math.max(4, prevCount - 4));
+  };
+
+  const handleRecipeClick = (recipe: RecipeData) => {
+    setSelectedRecipe(recipe);
+    setShowModal(true);
+    // console.log(setSelectedRecipe);
+  };
+  const fetchSearchResults = async (keyword: any) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/feeds/recipes/search/${keyword}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+  useEffect(() => {
+    if (searchKeyword) {
+      fetchSearchResults(searchKeyword);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchKeyword]);
 
   useEffect(() => {
     if (recipes) {
@@ -50,6 +95,13 @@ const RecipeFeeds = () => {
       setCategoriesData(categories);
     }
   }, [recipes]);
+
+  const handleSearch = () => {
+    fetchSearchResults(searchKeyword);
+  };
+  const handleInputChange = (e: any) => {
+    setSearchKeyword(e.target.value);
+  };
 
   const categories = [
     "Healty Recipe",
@@ -143,14 +195,107 @@ const RecipeFeeds = () => {
                       type="search"
                       className="border-slate-500 border-2 rounded-md p-2"
                       placeholder="Search Recipe Here"
+                      value={searchKeyword}
+                      onChange={handleInputChange}
                     />
                     <img
                       src={Magnifier.src}
                       alt=""
-                      className="h-6 w-6  absolute right-2 top-2 "
+                      className="h-6 w-6 absolute right-2 top-2 cursor-pointer"
+                      onClick={handleSearch}
                     />
                   </div>
                 </div>
+              </div>
+              <div className="pt-5">
+                {searchResults && searchResults.length > 0 && (
+                  <div>
+                    <h2>Search Result:</h2>
+                    <div className="item-list">
+                      <div className="pr-16 px-5 w-full">
+                        <div className="grid grid-cols-4 gap-7 px-20 py-10 ">
+                          {searchResults
+                            .slice(0, showCount)
+                            .map((recipe: any, index: number) => (
+                              <div
+                                className="rounded-xl shadow-md shadow-black cursor-pointer"
+                                key={index}
+                                onClick={() =>
+                                  handleRecipeClick(
+                                    recipe as unknown as RecipeData
+                                  )
+                                }
+                              >
+                                <div className=" h-44 overflow-hidden">
+                                  <img
+                                    src={recipe.attachment}
+                                    alt=""
+                                    className="rounded-t-xl object-cover flex"
+                                  />
+                                </div>
+                                <div className="flex flex-col pt-2 bg-slate-50 rounded-b-xl p-5  overflow-hidden justify-center items-center gap-10 h-40">
+                                  <div className="flex justify-center items-center text-center">
+                                    {recipe.title}
+                                  </div>
+                                  <div className="flex justify-around items-center gap-2">
+                                    <div className="flex gap-1 justify-center items-center">
+                                      <img
+                                        src={ComplexityLogo.src}
+                                        alt=""
+                                        className="h-6 w-6"
+                                      />
+                                      <div>{recipe.complexity}</div>
+                                    </div>
+                                    <div className="flex gap-2 justify-center items-center">
+                                      <img
+                                        src={ServingLoo.src}
+                                        alt=""
+                                        className="h-6 w-6"
+                                      />
+                                      <div>4 persons</div>
+                                    </div>
+                                    <div className="flex gap-2 justify-center items-center">
+                                      <img
+                                        src={NutriLogo.src}
+                                        alt=""
+                                        className="h-6 w-6"
+                                      />
+                                      <div>{recipe.nutriscore}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                      <div className="px-10 pt-4 flex justify-end items-center gap-2">
+                        {showCount > 4 && (
+                          <Button
+                            onClick={toggleShowLess}
+                            className="text-white"
+                          >
+                            Show Less
+                          </Button>
+                        )}
+                        {showCount < recipes.length && (
+                          <Button
+                            onClick={toggleShowMore}
+                            className="text-white"
+                          >
+                            Show More
+                          </Button>
+                        )}
+                      </div>
+                      {showModal && selectedRecipe && (
+                        <ModalRecipe
+                          recipe={selectedRecipe}
+                          showModal={showModal}
+                          setShowModal={setShowModal}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="pt-5">
                 <h1>Weekly Recipes</h1>

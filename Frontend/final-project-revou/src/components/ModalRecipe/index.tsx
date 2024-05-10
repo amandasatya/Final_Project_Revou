@@ -14,7 +14,7 @@ import {
 } from "next/navigation";
 import { redirect } from "next/navigation";
 
-interface RecipeProps {
+export interface RecipeProps {
   author_id: number;
   image: string;
   title: string;

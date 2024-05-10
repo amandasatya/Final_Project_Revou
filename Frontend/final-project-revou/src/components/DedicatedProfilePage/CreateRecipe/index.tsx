@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useUploadRecipeImage from "@/hooks/useUploadRecipe";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 
 interface Ingredient {
   name: string;
@@ -263,30 +264,35 @@ const RecipeForm: React.FC = () => {
             className="mt-1 p-2 border rounded-md w-full"
           />
         </div>
-        <div>
+        <div className="mb-4 ">
           <label>Ingredients:</label>
-          bro
-          {recipeData.ingredients.map((ingredient, index) => (
-            <div key={index}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Ingredient name"
-                value={ingredient[0]}
-                onChange={(e) => handleIngredientChange(index, e)}
-              />
-              <input
-                type="text"
-                name="quantity"
-                placeholder="Quantity"
-                value={ingredient[1]}
-                onChange={(e) => handleIngredientChange(index, e)}
-              />
-            </div>
-          ))}
-          <button type="button" onClick={handleAddIngredient}>
-            Add Ingredient
-          </button>
+          <div className="flex flex-col gap-2">
+            {recipeData.ingredients.map((ingredient, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Ingredient name"
+                  value={ingredient[0]}
+                  onChange={(e) => handleIngredientChange(index, e)}
+                  className="mt-1 p-2 border rounded-md w-full"
+                />
+                <input
+                  type="text"
+                  name="quantity"
+                  placeholder="Quantity"
+                  value={ingredient[1]}
+                  onChange={(e) => handleIngredientChange(index, e)}
+                  className="mt-1 p-2 border rounded-md w-full"
+                />
+              </div>
+            ))}
+          </div>
+          <div className="p-2 flex justify-end items-end">
+            <Button type="button" onClick={handleAddIngredient}>
+              Add more Ingredient
+            </Button>
+          </div>
         </div>
         <div className="mb-4">
           <label

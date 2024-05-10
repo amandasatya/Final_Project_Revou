@@ -20,6 +20,7 @@ const CommentSection = ({ recipeData, setRecipeData }: any) => {
   const { recipes } = useFetchRecipe();
 
   const { profile } = useFetchProfile();
+  const [comments, setComments] = useState("");
 
   // useEffect(() => {
   //   const fetchDataProfile = async () => {
@@ -70,6 +71,11 @@ const CommentSection = ({ recipeData, setRecipeData }: any) => {
       console.error("Error posting comment:", error);
     }
   };
+  useEffect(() => {
+    if (recipeData && recipeData.comments) {
+      setComments(recipeData.comments);
+    }
+  }, [recipeData]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent default form submission
