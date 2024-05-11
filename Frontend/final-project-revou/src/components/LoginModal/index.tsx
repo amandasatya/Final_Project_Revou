@@ -8,6 +8,7 @@ import facebooksvg from "../../components/images/svg/317727_facebook_social medi
 import inboxsvg from "../../components/images/svg/email-1-svgrepo-com.svg";
 import locksvg from "../../components/images/svg/4213432_closed_lock_password_protect_secure_icon.svg";
 import Modal from "../Modal";
+import { useAuth } from "@/context";
 
 type SetToggleMenuType = (
   value: boolean | ((prev: boolean) => boolean)
@@ -16,7 +17,11 @@ type SetToggleMenuType = (
 interface Props {
   setShowLoginModal: SetToggleMenuType;
   setShowRegisterModal: SetToggleMenuType;
+
+  isLoggedIn: boolean;
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
+interface NavbarProps {}
 
 export default function LoginModal({
   setShowLoginModal,
@@ -30,6 +35,8 @@ export default function LoginModal({
     email: "",
   });
   const API_BASE_URL = "http://127.0.0.1:5000";
+
+  const { isLoggedIn, setIsLoggedIn } = useState(false);
 
   function goToRegisterFromLogin() {
     setShowLoginModal(false);
@@ -55,7 +62,7 @@ export default function LoginModal({
       const access_token = response.data.token.access_token;
 
       localStorage.setItem("access_token", access_token);
-
+      setIsLoggedIn(true);
       console.log("Login successful!");
     } catch (error) {
       console.error(error);

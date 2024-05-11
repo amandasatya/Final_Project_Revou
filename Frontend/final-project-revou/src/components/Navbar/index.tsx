@@ -1,6 +1,8 @@
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import svg1 from "../images/svg/whole-foods-1.svg";
 import Link from "next/link";
+import axios from "axios";
 
 type SetToggleMenuType = (
   value: boolean | ((prev: boolean) => boolean)
@@ -9,9 +11,16 @@ type SetToggleMenuType = (
 interface Props {
   setShowLoginModal: SetToggleMenuType;
   setShowNavbarHamburgerMenu: SetToggleMenuType;
+  isLoggedIn: boolean;
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
 
-const Navbar = ({ setShowLoginModal, setShowNavbarHamburgerMenu }: Props) => {
+const Navbar = ({
+  setShowLoginModal,
+  setShowNavbarHamburgerMenu,
+  isLoggedIn,
+  setIsLoggedIn,
+}: Props) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const toggleSearchBar = () => {
@@ -23,6 +32,36 @@ const Navbar = ({ setShowLoginModal, setShowNavbarHamburgerMenu }: Props) => {
   };
   const toggleLoginModal = () => {
     setShowLoginModal((prev: boolean) => !prev);
+  };
+
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const authToken = localStorage.getItem("access_token");
+        if (authToken) {
+          const response = await axios.get("http://127.0.0.1:5000/users/", {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          setUsername(response.data.username.toUpperCase());
+          console.log("Username:", response.data.username);
+        }
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchUsername();
+    }
+  }, [isLoggedIn]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    setIsLoggedIn(false);
   };
 
   return (
@@ -103,12 +142,8 @@ const Navbar = ({ setShowLoginModal, setShowNavbarHamburgerMenu }: Props) => {
       <div className="relative z-10 justify-center flex items-center ">
         <div className="hidden sm:flex sm:justify-center sm:items-center font-sans font-medium text-lg">
           <ul className="flex gap-10 md:gap-16 lg:gap-28 xl:gap-32 2xl:gap-40 justify-center items-center">
-            <li>
-              <a href="#">Recipe</a>
-            </li>
-            <li>
-              <a href="#">About us</a>
-            </li>
+            <Link href="/home">Home</Link>
+            <Link href="/about-us">About us</Link>
             <li>
               <a href="">
                 {" "}
@@ -117,13 +152,20 @@ const Navbar = ({ setShowLoginModal, setShowNavbarHamburgerMenu }: Props) => {
                 </picture>
               </a>
             </li>
+            <Link href="/explore">Recipe</Link>
             <li>
-              <a href="#">Products</a>
-            </li>
-            <li>
-              <Link href="" onClick={toggleLoginModal}>
-                Sign In
-              </Link>
+              {isLoggedIn ? (
+                <button
+                  className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </button>
+              ) : (
+                <Link href="" onClick={toggleLoginModal}>
+                  Sign In
+                </Link>
+              )}
             </li>
           </ul>
         </div>

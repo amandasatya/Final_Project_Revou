@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp, faComment } from "@fortawesome/free-regular-svg-icons";
 
 interface RecipeProps {
@@ -85,7 +85,7 @@ const ModalRecipe = ({ recipe, showModal, setShowModal }: any) => {
   // });
 
   const handleRedirectToRecipees = (id: number) => {
-    router.push(`/RecipeDetailResponsive/${id}`);
+    router.push(`/recipe-details/${id}`);
   };
 
   const closeModal = () => {
