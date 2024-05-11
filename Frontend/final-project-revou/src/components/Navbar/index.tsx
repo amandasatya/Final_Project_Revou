@@ -104,10 +104,10 @@ const Navbar = ({ setShowLoginModal, setShowNavbarHamburgerMenu }: Props) => {
         <div className="hidden sm:flex sm:justify-center sm:items-center font-sans font-medium text-lg">
           <ul className="flex gap-10 md:gap-16 lg:gap-28 xl:gap-32 2xl:gap-40 justify-center items-center">
             <li>
-              <a href="#">Recipe</a>
+              <Link href="/">Explore</Link>
             </li>
             <li>
-              <a href="#">About us</a>
+              <Link href="#">About us</Link>
             </li>
             <li>
               <a href="">
