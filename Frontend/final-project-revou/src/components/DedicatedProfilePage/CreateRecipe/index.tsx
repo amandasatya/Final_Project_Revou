@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useUploadRecipeImage from "@/hooks/useUploadRecipe";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import Swal from "sweetalert2";
 
 interface Ingredient {
   name: string;
@@ -72,6 +73,11 @@ const RecipeForm: React.FC = () => {
               headers,
             }
           );
+          Swal.fire({
+            icon: "success",
+            title: "Recipe created successfully",
+            text: "Your recipe has been created",
+          });
           // Handle response
           // console.log("Recipe created successfully:", response.data);
         }

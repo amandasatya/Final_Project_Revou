@@ -1,15 +1,12 @@
+"use client";
 import React, { useState } from "react";
 import MyProfile from "../DedicatedProfilePage/MyProfile";
 import MyRecipe from "../DedicatedProfilePage/MyRecipe";
 import CreateRecipe from "../DedicatedProfilePage/CreateRecipe";
+import Link from "next/link";
 import Security from "../DedicatedProfilePage/Security";
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const Sidebar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const categories = [
     "Home",
     "My Profile",
@@ -35,7 +32,11 @@ const Sidebar: React.FC = () => {
                 key={category}
                 onClick={() => handleCategoryClick(category)}
               >
-                {category}
+                {category === "Home" ? (
+                  <Link href="/home">{category}</Link>
+                ) : (
+                  category
+                )}
               </h1>
             ))}
           </div>
